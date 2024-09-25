@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from this origin (React app)
+  origin: 'https://master--superlative-manatee-1170c9.netlify.app', // Allow requests from this origin (React app)
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Add more methods as needed
   allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
 }));
@@ -44,6 +44,8 @@ app.use('/api/users', userRoutes); // Register user routes
 app.use('/api/follows', followRoutes); // Register follow routes
 app.use('/api/posts', commentRoutes); // Register comment routes under /api/posts
 app.use('/api/comments', commentRoutes);
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
