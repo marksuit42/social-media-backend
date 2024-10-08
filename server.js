@@ -2,18 +2,29 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const http = require('http'); // Import http
+const { Server } = require('socket.io'); // Import socket.io
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./posts/routes/postRoutes');
 const likeRoutes = require('./likes/routes/likeRoutes');
 const userRoutes = require('./models/userRoutes'); // Import user routes
 const followRoutes = require('./follows/routes/followRoutes'); // Import follow routes
 const commentRoutes = require('./comments/routes/commentRoutes'); // Import comment routes
+const messageRoutes = require('./message/routes/messageRoutes'); // Import message routes
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const server = http.createServer(app); // Create HTTP server
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000', // Allow requests from this origin (React app)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Add more methods as needed
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
+  }
+});
+const PORT = process.env.PORT || 5000;
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
@@ -31,11 +42,6 @@ app.use(cors({
 }));
 app.use(express.json()); // Parse JSON bodies
 
-// Basic route
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
-
 // Register routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
@@ -44,7 +50,21 @@ app.use('/api/users', userRoutes); // Register user routes
 app.use('/api/follows', followRoutes); // Register follow routes
 app.use('/api/posts', commentRoutes); // Register comment routes under /api/posts
 app.use('/api/comments', commentRoutes);
+app.use('/api/messages', messageRoutes); // Register message routes
 
-app.listen(PORT, () => {
+// Socket.IO connection
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  socket.on('sendMessage', (message) => {
+    io.emit('receiveMessage', message);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected:', socket.id);
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

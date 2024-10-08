@@ -14,6 +14,8 @@ router.put('/forgot-password', authController.forgotPassword);
 // Protected route: get current user
 router.get('/current-user', verifyToken, authController.getCurrentUser);
 
+router.post('/register', authController.register);
+
 
 
 // Protected route: user profile

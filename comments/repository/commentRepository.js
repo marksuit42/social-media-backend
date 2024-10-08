@@ -14,7 +14,13 @@ const addCommentToPost = async (postId, content, author) => {
 };
 
 const getCommentsForPost = async (postId) => {
-  const post = await Post.findById(postId).populate('comments');
+  const post = await Post.findById(postId).populate({
+    path: 'comments',
+    populate: {
+      path: 'author',
+      select: 'email'
+    }
+  });
   return post.comments;
 };
 
