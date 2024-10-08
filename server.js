@@ -19,7 +19,7 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000', // Allow requests from this origin (React app)
+    origin: 'https://master--superlative-manatee-1170c9.netlify.app', // Allow requests from this origin (React app)
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Add more methods as needed
     allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
   }
@@ -65,12 +65,8 @@ io.on('connection', (socket) => {
   });
 });
 
-<<<<<<< HEAD
+
 server.listen(PORT, () => {
-=======
-
-
-app.listen(PORT, () => {
->>>>>>> 7c95885bf2a6382cb0aa9c3522751e1dda3af043
   console.log(`Server is running on port ${PORT}`);
 });
+

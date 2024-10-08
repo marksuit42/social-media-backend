@@ -84,8 +84,6 @@ exports.register = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error registering user' });
   }
-<<<<<<< HEAD
+
 };
-=======
-};
->>>>>>> 7c95885bf2a6382cb0aa9c3522751e1dda3af043
+
