@@ -19,7 +19,7 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: 'https://superlative-manatee-1170c9.netlify.app/', // Allow requests from this origin (React app)
+    origin: 'https://superlative-manatee-1170c9.netlify.app', // Allow requests from this origin (React app)
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Add more methods as needed
     allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
   }
@@ -36,7 +36,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Middleware
 app.use(cors({
-  origin: 'https://superlative-manatee-1170c9.netlify.app/', // Allow requests from this origin (React app)
+  origin: 'https://superlative-manatee-1170c9.netlify.app', // Allow requests from this origin (React app)
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Add more methods as needed
   allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
 }));
